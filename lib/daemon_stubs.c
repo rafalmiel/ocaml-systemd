@@ -45,9 +45,7 @@ CAMLprim value caml_daemon_code_of_unix_error(value unix_error) {
 
 CAMLprim value caml_daemon_notify(value unset_environment, value state) {
   int ret;
-  caml_enter_blocking_section();
   ret = sd_notify(Bool_val(unset_environment), String_val(state));
-  caml_leave_blocking_section();
   if (ret < 0)
     unix_error(ret, "daemon_notify", Nothing);
   return (ret == 0)?Val_false:Val_true;
